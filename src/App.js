@@ -11,10 +11,11 @@ class App extends Component {
     map: null,
     layer: null,
     filter: null,
+    trucks: [],
   }
 
   componentDidMount() {
-    this.initMap() 
+    this.initMap()
   }
 
   componentWillUpdate(_, nextState) {
@@ -25,20 +26,34 @@ class App extends Component {
   }
 
   initMap = () => {
-    const { geojson } = this.props
+    const { geojson, width } = this.props
+    const zoom = width && width > 500 ? 13 : 11
 
     const map = L.mapbox
-      .map(this.mapHolder, 'mapbox.streets', { minZoom: 1, maxZoom: 5 })
-      .setView([23.06, -13.61], 1)
+      .map(this.mapHolder, 'mapbox.streets', { minZoom: 10, maxZoom: 16 })
+      .setView([38.894, -77.030], zoom)
 
     const layer = L.mapbox
       .featureLayer()
       .addTo(map)
 
+    map.on('drag', this.updateList)
+    map.on('zoomend', this.updateList)
     layer.on('layeradd', this.onLayerAdd)
     layer.setGeoJSON(geojson)
 
-    this.setState({ map, layer })
+    this.setState({ map, layer, trucks: geojson.features })
+  }
+
+  updateList = () => {
+    const { map, layer } = this.state
+    const [bounds, trucks] = [map.getBounds(), []]
+
+    layer.eachLayer(d => {
+      if (bounds.contains(d.getLatLng())) trucks.push(d.feature)
+    })
+
+    this.setState({ trucks })
   }
 
   onLayerAdd = e => {
@@ -68,7 +83,7 @@ class App extends Component {
   }
 
   render() {
-    const { layer, filter } = this.state
+    const { layer, filter, trucks } = this.state
 
     let markers = []
     layer && layer.eachLayer(d => markers.push(d.feature.properties))
@@ -92,6 +107,11 @@ class App extends Component {
           <option>foo</option>
           <option>bar</option>
         </select>
+        <div>
+          {trucks.map((t, i) => (
+            <pre key={i}>{JSON.stringify(t)}</pre>
+          ))}
+        </div>
       </div>
     )
   }

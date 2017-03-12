@@ -6,26 +6,25 @@ export const POINTS = {
     {
       "type": "Feature",
       "properties": {
-        "title": "DC",
+        "title": "Smoking Kow BBQ",
         "info": {
-          "address": "123 Main St, Washington DC 12345",
+          "text": "It's a beautiful day for some mac n meat, NoMa!",
           "something": "foo",
         },
         "marker-color": "#fc4353",
-        "marker-symbol": "star",
         "marker-size": "small"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [-77.038659, 38.931567]
+        "coordinates": [-77.1116447, 38.8810365]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "title": "SF",
+        "title": "Miamiviceburgers",
         "info": {
-          "address": "123 Main St, San Francisco, CA 12345",
+          "text": "We are open for lunch",
           "something": "bar",
         },
         "marker-color": "#fc4353",
@@ -33,24 +32,24 @@ export const POINTS = {
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [-122.414, 37.776]
+        "coordinates": [-77.0708316, 38.8971184]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "title": "Austin",
+        "title": "DC Ballers",
         "info": {
-          "address": "123 Main St, Austin, TX 12345",
+          "text": "Hi!",
           "something": "foo",
         },
-        "marker-color": "#2ecc71",
+        "marker-color": "#fc4353",
         "marker-size": "small"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [-97.755996,  30.307182]
+        "coordinates": [-77.0219057, 38.8863197]
       }
-    }
+    },
   ]
 }

@@ -7,6 +7,9 @@ import { POINTS } from './data'
 import 'ace-css/css/ace.min.css'
 
 ReactDOM.render(
-  <App geojson={POINTS} />,
+  <App
+    geojson={POINTS}
+    width={window && window.innerWidth}
+  />,
   document.getElementById('root')
 )
