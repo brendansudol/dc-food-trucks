@@ -376,7 +376,7 @@
 }
 
 .leaflet-default-icon-path {
-  background-image: url('../images/marker-icon.png')
+  background-image: url('../img/marker-icon.png')
 }
 
 .leaflet-container .leaflet-control-attribution {
@@ -654,8 +654,8 @@
 .map-tooltip .close,
 .mapbox-icon {
   opacity: .75;
-  background-image: url('../images/icons-000000@2x.png');
-  background-image: linear-gradient(transparent, transparent), url('../images/icons.svg');
+  background-image: url('../img/icons-000000@2x.png');
+  background-image: linear-gradient(transparent, transparent), url('../img/icons.svg');
   background-repeat: no-repeat;
   background-size: 26px 260px
 }
@@ -667,8 +667,8 @@
 .leaflet-container.dark .mapbox-icon,
 .mapbox-button-icon:before {
   opacity: 1;
-  background-image: url(../images/icons-ffffff@2x.png);
-  background-image: linear-gradient(transparent, transparent), url(../images/icons-ffffff.svg);
+  background-image: url(../img/icons-ffffff@2x.png);
+  background-image: linear-gradient(transparent, transparent), url(../img/icons-ffffff.svg);
   background-size: 26px 260px
 }
 
@@ -1135,4 +1135,171 @@
 
 .leaflet-oldie .mapbox-logo-true {
   background-image: none
+}
+
+
+/* markercluster */
+
+.leaflet-cluster-anim .leaflet-marker-icon,
+.leaflet-cluster-anim .leaflet-marker-shadow {
+  -webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
+  -moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
+  -o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+.marker-cluster-small {
+  background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+  background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+  background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster-medium div {
+  background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.6);
+}
+
+.marker-cluster-large div {
+  background-color: rgba(241, 128, 23, 0.6);
+}
+
+
+/* IE 6-8 fallback colors */
+
+.leaflet-oldie .marker-cluster-small {
+  background-color: rgb(181, 226, 140);
+}
+
+.leaflet-oldie .marker-cluster-small div {
+  background-color: rgb(110, 204, 57);
+}
+
+.leaflet-oldie .marker-cluster-medium {
+  background-color: rgb(241, 211, 87);
+}
+
+.leaflet-oldie .marker-cluster-medium div {
+  background-color: rgb(240, 194, 12);
+}
+
+.leaflet-oldie .marker-cluster-large {
+  background-color: rgb(253, 156, 115);
+}
+
+.leaflet-oldie .marker-cluster-large div {
+  background-color: rgb(241, 128, 23);
+}
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 20px;
+}
+
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+  text-align: center;
+  border-radius: 15px;
+  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.marker-cluster span {
+  line-height: 30px;
+}
+
+.cluster {
+  background: #d9534f;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  border: 1px solid #d9534f;
+  font-family: monospace;
+}
+
+.cluster.active {
+  background-color: #000;
+  border-color: #000;
+}
+
+.cluster:before {
+  content: ' ';
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  border: 1px solid white;
+}
+
+.digits-0 {
+  font-size: 10px;
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+}
+
+.digits-1 {
+  font-size: 14px;
+  height: 28px;
+  width: 28px;
+  line-height: 25px;
+  margin-top: -14px;
+  margin-left: -14px;
+}
+
+.digits-2 {
+  font-size: 15px;
+  height: 34px;
+  width: 34px;
+  line-height: 34px;
+  margin-top: -17px;
+  margin-left: -17px;
+}
+
+.digits-2:before {
+  border-width: 2px;
+}
+
+.digits-3 {
+  font-size: 16px;
+  height: 48px;
+  width: 47px;
+  line-height: 44px;
+  border-width: 3px;
+  margin-top: -24px;
+  margin-left: -24px;
+}
+
+.digits-3:before {
+  border-width: 3px;
+}
+
+.digits-4 {
+  font-size: 18px;
+  height: 58px;
+  width: 58px;
+  line-height: 57px;
+  border-width: 4px;
+  margin-top: -29px;
+  margin-left: -29px;
+}
+
+.digits-4:before {
+  border-width: 4px;
 }
