@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "ace-css": "^1.1.0",
+    "leaflet.markercluster": "^1.0.3",
     "mapbox.js": "^3.0.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"

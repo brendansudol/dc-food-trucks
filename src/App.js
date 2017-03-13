@@ -1,5 +1,6 @@
-import L from 'mapbox.js'
 import React, { Component } from 'react'
+import L from 'mapbox.js'
+import 'leaflet.markercluster'
 
 import { MAPBOX_KEY } from './data'
 import { tooltip } from './util'
@@ -9,6 +10,7 @@ L.mapbox.accessToken = MAPBOX_KEY
 class App extends Component {
   state = {
     map: null,
+    cluster: null,
     layer: null,
     filter: null,
     trucks: [],
@@ -30,17 +32,38 @@ class App extends Component {
     const zoom = width && width > 500 ? 13 : 11
 
     const map = L.mapbox
-      .map(this.mapHolder, 'mapbox.streets', { minZoom: 10, maxZoom: 16 })
+      .map(this.mapHolder, 'mapbox.streets', { minZoom: 6, maxZoom: 16 })
       .setView([38.894, -77.030], zoom)
 
-    const layer = L.mapbox
-      .featureLayer()
-      .addTo(map)
+    const cluster = new L.MarkerClusterGroup({
+        iconCreateFunction: (cluster) => {
+            const count = cluster.getChildCount()
+            const digits = `${count}`.length
+
+            return new L.DivIcon({
+              className: `cluster digits-${digits}`,
+              html: count,
+              iconSize: null
+            })
+        },
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: false,
+        spiderfyOnMaxZoom: true,
+        maxClusterRadius: 40,
+        spiderfyDistanceMultiplier: 0.6
+    })
+
+    const layer = L.mapbox.featureLayer()
 
     map.on('drag', this.updateList)
     map.on('zoomend', this.updateList)
+    cluster.on('clusterclick', this.onClusterClick)
     layer.on('layeradd', this.onLayerAdd)
+    layer.on('click', this.onLayerClick)
+
     layer.setGeoJSON(geojson)
+    cluster.addLayer(layer)
+    map.addLayer(cluster)
 
     this.setState({ map, layer, trucks: geojson.features })
   }
@@ -66,6 +89,17 @@ class App extends Component {
     })
   }
 
+  onLayerClick = e => {
+    const truck = e.layer.feature
+    this.setState({ trucks: [truck] })
+  }
+
+  onClusterClick = e => {
+    const children = e.layer.getAllChildMarkers()
+    const trucks = children.map(d => d.feature)
+    this.setState({ trucks })
+  }
+
   filterLayer = (nextFilter) => {
     const { map, layer } = this.state
 
@@ -83,35 +117,26 @@ class App extends Component {
   }
 
   render() {
-    const { layer, filter, trucks } = this.state
-
-    let markers = []
-    layer && layer.eachLayer(d => markers.push(d.feature.properties))
+    const { trucks } = this.state
 
     return (
-      <div className='p2'>
-        <div
-          ref={div => { this.mapHolder = div }}
-          style={{ width: '100%', height: 300 }}
-        />
-        <div>
-          {markers.length > 0 && markers.map((d, i) => (
-            <pre key={i}>{JSON.stringify(d)}</pre>
-          ))}
-        </div>
-        <select
-          className='select md-col-3'
-          onChange={this.onChange}
-          value={filter || ''}
-        >
-          <option>foo</option>
-          <option>bar</option>
-        </select>
-        <div>
-          {trucks.map((t, i) => (
-            <pre key={i}>{JSON.stringify(t)}</pre>
-          ))}
-        </div>
+      <div className='flex flex-column' style={{ height: '100%' }}>
+        <header className='flex-none bg-black white p1 bold'>
+          food trucks
+        </header>
+        <main className='flex flex-auto'>
+          <div className='sm-col sm-col-3 xs-hide bg-darken-1'>
+            {trucks.map((t, i) => (
+              <div key={i}>{t.properties.title}</div>
+            ))}
+          </div>
+          <div className='sm-col sm-col-9 flex-auto'>
+            <div
+              ref={div => { this.mapHolder = div }}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </main>
       </div>
     )
   }
