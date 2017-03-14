@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import L from 'mapbox.js'
 import 'leaflet.markercluster'
 
+import Modal from './Modal'
 import { MAPBOX_KEY } from './data'
 import { tooltip } from './util'
 
@@ -12,19 +13,12 @@ class App extends Component {
     map: null,
     cluster: null,
     layer: null,
-    filter: null,
     trucks: [],
+    modalOpen: false,
   }
 
   componentDidMount() {
     this.initMap()
-  }
-
-  componentWillUpdate(_, nextState) {
-    const { filter } = this.state
-    const { filter: nextFilter } = nextState
-
-    if (filter !== nextFilter) this.filterLayer(nextFilter)
   }
 
   initMap = () => {
@@ -100,29 +94,26 @@ class App extends Component {
     this.setState({ trucks })
   }
 
-  filterLayer = (nextFilter) => {
-    const { map, layer } = this.state
-
-    layer.setFilter(feature => {
-      const { something } = feature.properties.info
-      return something === nextFilter
+  toggleModal = () => {
+    this.setState(prevState => {
+      return { modalOpen: !prevState.modalOpen }
     })
-
-    map.fitBounds(layer.getBounds())
-  }
-
-  onChange = e => {
-    const { value: filter } = e.target
-    this.setState({ filter })
   }
 
   render() {
-    const { trucks } = this.state
+    const { trucks, modalOpen } = this.state
 
     return (
       <div className='flex flex-column' style={{ height: '100%' }}>
-        <header className='flex-none bg-black white p1 bold'>
-          food trucks
+        <header className='flex-none bg-black white'>
+          <button
+            type='button'
+            className='btn p1 regular right'
+            onClick={this.toggleModal}
+          >
+            about
+          </button>
+          <a href='/' className='btn p1'>food trucks</a>
         </header>
         <main className='flex flex-auto'>
           <div className='sm-col sm-col-3 xs-hide bg-darken-1'>
@@ -137,6 +128,7 @@ class App extends Component {
             />
           </div>
         </main>
+        <Modal open={modalOpen} toggle={this.toggleModal} />
       </div>
     )
   }
