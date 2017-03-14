@@ -775,10 +775,6 @@
   width: 300px
 }
 
-.leaflet-popup-content .marker-title {
-  font-weight: 700
-}
-
 .leaflet-control .mapbox-button {
   background-color: #fff;
   border: 1px solid #ddd;

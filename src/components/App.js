@@ -3,8 +3,7 @@ import L from 'mapbox.js'
 import 'leaflet.markercluster'
 
 import Modal from './Modal'
-import { MAPBOX_KEY } from './data'
-import { tooltip } from './util'
+import { MAPBOX_KEY, geoConfig, formatData } from '../util'
 
 L.mapbox.accessToken = MAPBOX_KEY
 
@@ -14,6 +13,7 @@ class App extends Component {
     cluster: null,
     layer: null,
     trucks: [],
+    highlight: false,
     modalOpen: false,
   }
 
@@ -22,44 +22,43 @@ class App extends Component {
   }
 
   initMap = () => {
-    const { geojson, width } = this.props
+    const { width } = this.props
     const zoom = width && width > 500 ? 13 : 11
 
     const map = L.mapbox
-      .map(this.mapHolder, 'mapbox.streets', { minZoom: 6, maxZoom: 16 })
+      .map(this.mapHolder, 'mapbox.streets', geoConfig.map)
       .setView([38.894, -77.030], zoom)
 
-    const cluster = new L.MarkerClusterGroup({
-        iconCreateFunction: (cluster) => {
-            const count = cluster.getChildCount()
-            const digits = `${count}`.length
-
-            return new L.DivIcon({
-              className: `cluster digits-${digits}`,
-              html: count,
-              iconSize: null
-            })
-        },
-        showCoverageOnHover: false,
-        zoomToBoundsOnClick: false,
-        spiderfyOnMaxZoom: true,
-        maxClusterRadius: 40,
-        spiderfyDistanceMultiplier: 0.6
-    })
-
     const layer = L.mapbox.featureLayer()
+
+    const cluster = new L.MarkerClusterGroup({
+      iconCreateFunction: (cluster) => {
+        const count = cluster.getChildCount()
+        const digits = `${count}`.length
+
+        return new L.DivIcon({
+          className: `cluster digits-${digits}`,
+          html: count,
+          iconSize: null
+        })
+      },
+      ...geoConfig.cluster,
+    })
 
     map.on('drag', this.updateList)
     map.on('zoomend', this.updateList)
     cluster.on('clusterclick', this.onClusterClick)
-    layer.on('layeradd', this.onLayerAdd)
     layer.on('click', this.onLayerClick)
 
-    layer.setGeoJSON(geojson)
-    cluster.addLayer(layer)
-    map.addLayer(cluster)
-
-    this.setState({ map, layer, trucks: geojson.features })
+    fetch(`${process.env.PUBLIC_URL}/data/sample.json`)
+      .then(response => response.json())
+      .then(data => formatData(data.trucks))
+      .then(trucks => {
+        layer.setGeoJSON({ type: 'FeatureCollection', features: trucks })
+        cluster.addLayer(layer)
+        map.addLayer(cluster)
+        this.setState({ map, layer, cluster, trucks })
+      })
   }
 
   updateList = () => {
@@ -70,28 +69,18 @@ class App extends Component {
       if (bounds.contains(d.getLatLng())) trucks.push(d.feature)
     })
 
-    this.setState({ trucks })
-  }
-
-  onLayerAdd = e => {
-    const marker = e.layer
-    const { title, info } = marker.feature.properties
-
-    marker.bindPopup(tooltip({ title, ...info }), {
-      closeButton: false,
-      maxWidth: 'auto',
-    })
+    this.setState({ trucks, highlight: false })
   }
 
   onLayerClick = e => {
     const truck = e.layer.feature
-    this.setState({ trucks: [truck] })
+    this.setState({ trucks: [truck], highlight: true })
   }
 
   onClusterClick = e => {
     const children = e.layer.getAllChildMarkers()
     const trucks = children.map(d => d.feature)
-    this.setState({ trucks })
+    this.setState({ trucks, highlight: true })
   }
 
   toggleModal = () => {
@@ -101,7 +90,8 @@ class App extends Component {
   }
 
   render() {
-    const { trucks, modalOpen } = this.state
+    const { trucks, highlight, modalOpen } = this.state
+    const ct = trucks.length
 
     return (
       <div className='flex flex-column' style={{ height: '100%' }}>
@@ -116,9 +106,12 @@ class App extends Component {
           <a href='/' className='btn p1'>food trucks</a>
         </header>
         <main className='flex flex-auto'>
-          <div className='sm-col sm-col-3 xs-hide bg-darken-1'>
+          <div className='sm-col sm-col-3 xs-hide bg-darken-1 overflow-scroll'>
+            {!highlight && (
+              <h2>{`${ct} food truck${ct === 1 ? '' : 's'}`}</h2>
+            )}
             {trucks.map((t, i) => (
-              <div key={i}>{t.properties.title}</div>
+              <div key={i}>{t.properties.info.name}</div>
             ))}
           </div>
           <div className='sm-col sm-col-9 flex-auto'>
