@@ -106,13 +106,17 @@ class App extends Component {
           <a href='/' className='btn p1'>food trucks</a>
         </header>
         <main className='flex flex-auto'>
-          <div className='sm-col sm-col-3 xs-hide bg-darken-1 overflow-scroll'>
-            {!highlight && (
-              <h2>{`${ct} food truck${ct === 1 ? '' : 's'}`}</h2>
-            )}
-            {trucks.map((t, i) => (
-              <div key={i}>{t.properties.info.name}</div>
-            ))}
+          <div className='sm-col sm-col-3 xs-hide overflow-scroll'>
+            <div className='p2'>
+              {!highlight && (
+                <h2 className='mt0'>
+                  {`${ct} food truck${ct === 1 ? '' : 's'}`}
+                </h2>
+              )}
+              {trucks.map((t, i) => (
+                <div key={i}>{t.properties.info.name}</div>
+              ))}
+            </div>
           </div>
           <div className='sm-col sm-col-9 flex-auto'>
             <div

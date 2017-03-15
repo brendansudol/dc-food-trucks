@@ -15,11 +15,13 @@ export const geoConfig = {
 }
 
 export const tooltip = ({ name, last_tweet }) => (`
-  <div class='p1 h5' style='width:300px'>
-    <div class='h4 bold'>${name}</div>
-    <div>${last_tweet.text}</div>
+  <div class='p1' style='width:300px'>
+    <div class='h5 bold'>${name}</div>
+    <div class='h6'>
+      "${last_tweet.text}" (${last_tweet.date_display})
+    </div>
   </div>
-`)
+`.trim())
 
 export const formatData = data => (
   data.map(d => ({
