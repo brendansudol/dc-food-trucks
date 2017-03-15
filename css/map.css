@@ -410,7 +410,7 @@
 }
 
 .leaflet-container .mapbox-improve-map {
-  font-weight: 700
+  display: none;
 }
 
 .leaflet-control-scale-line {
