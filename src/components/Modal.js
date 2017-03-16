@@ -27,6 +27,7 @@ const Modal = ({ open, toggle }) => {
       position: 'relative',
       zIndex: 1,
       minWidth: 320,
+      maxWidth: 500,
       overflow: 'scroll'
     }
   }
@@ -34,9 +35,16 @@ const Modal = ({ open, toggle }) => {
   return (
     <div style={sx.root}>
       <div style={sx.dismiss} onClick={toggle} />
-      <div style={sx.inner}>
-        <div className='p3 bg-white'>
-          hello, world
+      <div className='m2' style={sx.inner}>
+        <div className='p2 sm-p3 bg-white'>
+          <p className='mt0'>
+            DC Food Trucks Today is a real-time map of food
+            trucks in the Washington DC area.
+          </p>
+          <div className='h5'>
+            <a href='https://brendansudol.com' className='mr2'>Made by @brensudol</a>
+            <a href='https://github.com/brendansudol/dc-food-trucks'>Code on GitHub</a>
+          </div>
         </div>
       </div>
     </div>

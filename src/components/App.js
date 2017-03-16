@@ -92,33 +92,39 @@ class App extends Component {
   render() {
     const { trucks, highlight, modalOpen } = this.state
     const ct = trucks.length
+    const truckInfo = trucks.map(t => t.properties.info)
 
     return (
       <div className='flex flex-column' style={{ height: '100%' }}>
-        <header className='flex-none bg-black white'>
+        <header className='flex-none bg-red white'>
           <button
             type='button'
-            className='btn p1 regular right'
+            className='btn p2 h6 sm-h5 regular right'
             onClick={this.toggleModal}
           >
             about
           </button>
-          <a href='/' className='btn p1'>food trucks</a>
+          <a href='/' className='btn p2 sm-h3'>dc food trucks today</a>
         </header>
         <main className='flex flex-auto'>
-          <div className='sm-col sm-col-3 xs-hide overflow-scroll'>
+          <div className='sm-col sm-col-4 lg-col-3 xs-hide overflow-scroll'>
             <div className='p2'>
               {!highlight && (
-                <h2 className='mt0'>
-                  {`${ct} food truck${ct === 1 ? '' : 's'}`}
-                </h2>
+                <div className='mb2 pb1 border-bottom border-silver'>
+                  <strong>{ct}</strong>
+                  {` food truck${ct === 1 ? '' : 's'}`}
+                </div>
               )}
-              {trucks.map((t, i) => (
-                <div key={i}>{t.properties.info.name}</div>
+              {truckInfo.map((t, i) => (
+                <div key={i} className='mb2'>
+                  <h4 className='m0'>{t.name}</h4>
+                  <p className='m0 h5'>{t.last_tweet.text}</p>
+                  <p className='m0 h6 gray'>{t.last_tweet.date_display}</p>
+                </div>
               ))}
             </div>
           </div>
-          <div className='sm-col sm-col-9 flex-auto'>
+          <div className='sm-col sm-col-8 lg-col-9 flex-auto'>
             <div
               ref={div => { this.mapHolder = div }}
               style={{ width: '100%', height: '100%' }}
