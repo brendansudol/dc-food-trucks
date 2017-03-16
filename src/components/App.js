@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import L from 'mapbox.js'
 import 'leaflet.markercluster'
 
+import Header from './Header'
+import List from './List'
 import Modal from './Modal'
 import { MAPBOX_KEY, geoConfig, formatData } from '../util'
 
@@ -89,40 +91,35 @@ class App extends Component {
     })
   }
 
+  geolocate = () => {
+    const { map } = this.state
+    if (!navigator.geolocation) return
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lon } = pos.coords
+        map.setView({ lat, lon }, 15, { animate: true })
+      },
+      (err) => console.log('geolocation error', err),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    )
+  }
+
   render() {
     const { trucks, highlight, modalOpen } = this.state
-    const ct = trucks.length
-    const truckInfo = trucks.map(t => t.properties.info)
 
     return (
       <div className='flex flex-column' style={{ height: '100%' }}>
-        <header className='flex-none bg-red white'>
-          <button
-            type='button'
-            className='btn p2 h6 sm-h5 regular right'
-            onClick={this.toggleModal}
-          >
-            about
-          </button>
-          <a href='/' className='btn p2 sm-h3'>dc food trucks today</a>
-        </header>
+        <Header
+          geolocate={this.geolocate}
+          toggleModal={this.toggleModal}
+        />
         <main className='flex flex-auto'>
           <div className='sm-col sm-col-4 lg-col-3 xs-hide overflow-scroll'>
-            <div className='p2'>
-              {!highlight && (
-                <div className='mb2 pb1 border-bottom border-silver'>
-                  <strong>{ct}</strong>
-                  {` food truck${ct === 1 ? '' : 's'}`}
-                </div>
-              )}
-              {truckInfo.map((t, i) => (
-                <div key={i} className='mb2'>
-                  <h4 className='m0'>{t.name}</h4>
-                  <p className='m0 h5'>{t.last_tweet.text}</p>
-                  <p className='m0 h6 gray'>{t.last_tweet.date_display}</p>
-                </div>
-              ))}
-            </div>
+            <List
+              highlight={highlight}
+              trucks={trucks}
+            />
           </div>
           <div className='sm-col sm-col-8 lg-col-9 flex-auto'>
             <div
@@ -131,7 +128,10 @@ class App extends Component {
             />
           </div>
         </main>
-        <Modal open={modalOpen} toggle={this.toggleModal} />
+        <Modal
+          open={modalOpen}
+          toggle={this.toggleModal}
+        />
       </div>
     )
   }
