@@ -3,8 +3,8 @@ import L from 'mapbox.js'
 import 'leaflet.markercluster'
 
 import Header from './Header'
-import List from './List'
 import Modal from './Modal'
+import Sidebar from './Sidebar'
 import { MAPBOX_KEY, geoConfig, formatData } from '../util'
 
 L.mapbox.accessToken = MAPBOX_KEY
@@ -30,6 +30,8 @@ class App extends Component {
     const map = L.mapbox
       .map(this.mapHolder, 'mapbox.streets', geoConfig.map)
       .setView([38.894, -77.030], zoom)
+
+    new L.Control.Zoom({ position: 'topright' }).addTo(map)
 
     const layer = L.mapbox.featureLayer()
 
@@ -109,22 +111,20 @@ class App extends Component {
     const { trucks, highlight, modalOpen } = this.state
 
     return (
-      <div className='flex flex-column' style={{ height: '100%' }}>
+      <div className='app'>
         <Header
           geolocate={this.geolocate}
           toggleModal={this.toggleModal}
         />
-        <main className='flex flex-auto'>
-          <div className='sm-col sm-col-4 lg-col-3 xs-hide overflow-scroll'>
-            <List
-              highlight={highlight}
-              trucks={trucks}
-            />
-          </div>
-          <div className='sm-col sm-col-8 lg-col-9 flex-auto'>
+        <main className='absolute bottom-0 col-12 flex' style={{ top: 52 }}>
+          <Sidebar
+            highlight={highlight}
+            trucks={trucks}
+          />
+          <div className='flex-auto h-col-12 content'>
             <div
+              className='col-12 h-col-12'
               ref={div => { this.mapHolder = div }}
-              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </main>

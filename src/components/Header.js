@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Header = ({ geolocate, toggleModal }) => (
-  <header className='flex-none bg-red white'>
+  <header className='bg-red white'>
     <div className='right'>
       <button
         type='button'

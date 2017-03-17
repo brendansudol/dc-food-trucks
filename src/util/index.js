@@ -4,6 +4,7 @@ export const geoConfig = {
   map: {
     minZoom: 10,
     maxZoom: 16,
+    zoomControl: false,
   },
   cluster: {
     showCoverageOnHover: false,

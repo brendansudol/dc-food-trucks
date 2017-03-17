@@ -1,2 +1,24 @@
 html, body, #root { height: 100%; }
 body { font-family: avenir next, avenir, ubuntu, roboto, sans-serif; }
+.h-col-12 { height: 100%; }
+
+.sidebar { display: none; }
+
+@media (max-width: 52em) {
+  .sidebar.open {
+    bottom: 0;
+    display: block;
+    max-width: 90%;
+    position: absolute;
+    top: 0;
+    width: 20rem;
+    z-index: 1;
+  }
+}
+
+@media (min-width: 52em) {
+  .sidebar {
+    display: block;
+    flex: 0 0 20rem;
+  }
+}
