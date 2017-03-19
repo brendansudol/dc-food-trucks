@@ -3,6 +3,7 @@ import L from 'mapbox.js'
 import 'leaflet.markercluster'
 
 import Header from './Header'
+import MapBtns from './MapBtns'
 import Modal from './Modal'
 import Sidebar from './Sidebar'
 import { MAPBOX_KEY, geoConfig, formatData } from '../util'
@@ -17,6 +18,7 @@ class App extends Component {
     trucks: [],
     highlight: false,
     modalOpen: false,
+    sidebarOpen: false,
   }
 
   componentDidMount() {
@@ -31,7 +33,7 @@ class App extends Component {
       .map(this.mapHolder, 'mapbox.streets', geoConfig.map)
       .setView([38.894, -77.030], zoom)
 
-    new L.Control.Zoom({ position: 'topright' }).addTo(map)
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(map)
 
     const layer = L.mapbox.featureLayer()
 
@@ -87,9 +89,9 @@ class App extends Component {
     this.setState({ trucks, highlight: true })
   }
 
-  toggleModal = () => {
+  toggle = key => () => {
     this.setState(prevState => {
-      return { modalOpen: !prevState.modalOpen }
+      return { [key]: !prevState[key] }
     })
   }
 
@@ -108,29 +110,36 @@ class App extends Component {
   }
 
   render() {
-    const { trucks, highlight, modalOpen } = this.state
+    const { trucks, highlight, modalOpen, sidebarOpen } = this.state
 
     return (
       <div className='app'>
         <Header
           geolocate={this.geolocate}
-          toggleModal={this.toggleModal}
+          toggleModal={this.toggle('modalOpen')}
         />
         <main className='absolute bottom-0 col-12 flex' style={{ top: 52 }}>
           <Sidebar
             highlight={highlight}
+            open={sidebarOpen}
             trucks={trucks}
           />
-          <div className='flex-auto h-col-12 content'>
+          <div className='flex-auto relative h-col-12'>
             <div
               className='col-12 h-col-12'
               ref={div => { this.mapHolder = div }}
+            />
+            <MapBtns
+              count={trucks.length}
+              geolocate={this.geolocate}
+              sideBarOpen={sidebarOpen}
+              toggleSidebar={this.toggle('sidebarOpen')}
             />
           </div>
         </main>
         <Modal
           open={modalOpen}
-          toggle={this.toggleModal}
+          toggle={this.toggle('modalOpen')}
         />
       </div>
     )

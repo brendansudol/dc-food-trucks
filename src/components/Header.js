@@ -1,15 +1,8 @@
 import React from 'react'
 
-const Header = ({ geolocate, toggleModal }) => (
+const Header = ({ toggleModal }) => (
   <header className='bg-red white'>
     <div className='right'>
-      <button
-        type='button'
-        className='btn p2 h6 sm-h5 regular'
-        onClick={geolocate}
-      >
-        geo
-      </button>
       <button
         type='button'
         className='btn p2 h6 sm-h5 regular'

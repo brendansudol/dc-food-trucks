@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Sidebar = ({ highlight, trucks }) => {
+const Sidebar = ({ highlight, open, trucks }) => {
   const ct = trucks.length
   const truckInfo = trucks.map(t => t.properties.info)
 
   return (
-    <div className='bg-white overflow-scroll sidebar'>
+    <div className={`bg-white overflow-scroll sidebar ${open ? 'open' : ''}`}>
       <div className='p2'>
         {!highlight && (
           <div className='mb2 pb1 border-bottom border-silver'>
