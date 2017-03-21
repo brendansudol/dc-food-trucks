@@ -8,7 +8,7 @@ body { font-family: avenir next, avenir, ubuntu, roboto, sans-serif; }
   .sidebar.open {
     bottom: 0;
     display: block;
-    max-width: 90%;
+    max-width: 80%;
     position: absolute;
     top: 0;
     width: 20rem;

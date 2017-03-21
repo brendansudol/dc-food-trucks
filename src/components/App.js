@@ -16,6 +16,7 @@ class App extends Component {
     cluster: null,
     layer: null,
     trucks: [],
+    fetching: true,
     highlight: false,
     modalOpen: false,
     sidebarOpen: false,
@@ -63,7 +64,7 @@ class App extends Component {
         layer.setGeoJSON({ type: 'FeatureCollection', features: trucks })
         cluster.addLayer(layer)
         map.addLayer(cluster)
-        this.setState({ map, layer, cluster, trucks })
+        this.setState({ map, layer, cluster, trucks, fetching: false })
       })
   }
 
@@ -110,7 +111,7 @@ class App extends Component {
   }
 
   render() {
-    const { trucks, highlight, modalOpen, sidebarOpen } = this.state
+    const { trucks, fetching, highlight, modalOpen, sidebarOpen } = this.state
 
     return (
       <div className='app'>
@@ -120,6 +121,7 @@ class App extends Component {
         />
         <main className='absolute bottom-0 col-12 flex' style={{ top: 52 }}>
           <Sidebar
+            fetching={fetching}
             highlight={highlight}
             open={sidebarOpen}
             trucks={trucks}

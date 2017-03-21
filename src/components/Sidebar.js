@@ -1,14 +1,14 @@
 import uniqBy from 'lodash.uniqby'
 import React from 'react'
 
-const Sidebar = ({ highlight, open, trucks }) => {
+const Sidebar = ({ fetching, highlight, open, trucks }) => {
   const ct = trucks.length
   const trucksFiltered = uniqBy(trucks.map(t => t.properties.info), 'name')
 
   return (
     <div className={`bg-white overflow-scroll sidebar ${open ? 'open' : ''}`}>
       <div className='p2'>
-        {!highlight && (
+        {fetching ? <div>Finding food trucks...</div> : !highlight && (
           <div className='mb2 pb1 border-bottom border-silver'>
             <strong>{ct}</strong>
             {` food truck${ct === 1 ? '' : 's'}`}
