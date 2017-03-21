@@ -56,7 +56,7 @@ class App extends Component {
     cluster.on('clusterclick', this.onClusterClick)
     layer.on('click', this.onLayerClick)
 
-    fetch(`${process.env.PUBLIC_URL}/data/sample.json`)
+    fetch('https://dc-food-trucks-api.herokuapp.com/data')
       .then(response => response.json())
       .then(data => formatData(data.trucks))
       .then(trucks => {

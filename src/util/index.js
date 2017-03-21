@@ -15,27 +15,35 @@ export const geoConfig = {
   },
 }
 
-export const tooltip = ({ name, last_tweet }) => (`
+const tooltip = ({ name, last_tweet }) => (`
   <div class='p1' style='width:300px'>
     <div class='h5 bold'>${name}</div>
-    <div class='h6'>
-      "${last_tweet.text}" (${last_tweet.date_display})
-    </div>
+    <div class='h6'>"${last_tweet.text}"</div>
   </div>
 `.trim())
 
-export const formatData = data => (
-  data.map(d => ({
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: [d.location.lng, d.location.lat]
-    },
-    properties: {
-      'marker-color': '#fc4353',
-      'marker-size': 'small',
-      title: tooltip(d),
-      info: { ...d }
-    }
-  }))
-)
+const entry = (datum, loc) => ({
+  type: 'Feature',
+  geometry: {
+    type: 'Point',
+    coordinates: [loc.lng, loc.lat]
+  },
+  properties: {
+    'marker-color': '#fc4353',
+    'marker-size': 'small',
+    title: tooltip(datum),
+    info: { ...datum },
+  },
+})
+
+export const formatData = data => {
+  const results = []
+
+  data.forEach(d => {
+    d.location.forEach(l => {
+      results.push(entry(d, l))
+    })
+  })
+
+  return results
+}

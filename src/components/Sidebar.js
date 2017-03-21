@@ -1,8 +1,9 @@
+import uniqBy from 'lodash.uniqby'
 import React from 'react'
 
 const Sidebar = ({ highlight, open, trucks }) => {
   const ct = trucks.length
-  const truckInfo = trucks.map(t => t.properties.info)
+  const trucksFiltered = uniqBy(trucks.map(t => t.properties.info), 'name')
 
   return (
     <div className={`bg-white overflow-scroll sidebar ${open ? 'open' : ''}`}>
@@ -13,11 +14,13 @@ const Sidebar = ({ highlight, open, trucks }) => {
             {` food truck${ct === 1 ? '' : 's'}`}
           </div>
         )}
-        {truckInfo.map((t, i) => (
+        {trucksFiltered.map((t, i) => (
           <div key={i} className='mb2'>
             <h4 className='m0'>{t.name}</h4>
             <p className='m0 h5'>{t.last_tweet.text}</p>
-            <p className='m0 h6 gray'>{t.last_tweet.date_display}</p>
+            <p className='m0 h6 gray'>
+              {new Date(t.last_tweet.ts * 1000).toDateString()}
+            </p>
           </div>
         ))}
       </div>
