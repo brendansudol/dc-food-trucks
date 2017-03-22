@@ -87,7 +87,7 @@ class App extends Component {
   onClusterClick = e => {
     const children = e.layer.getAllChildMarkers()
     const trucks = children.map(d => d.feature)
-    this.setState({ trucks, highlight: true })
+    this.setState({ trucks, highlight: true, sidebarOpen: true })
   }
 
   toggle = key => () => {
@@ -133,6 +133,7 @@ class App extends Component {
             />
             <MapBtns
               count={trucks.length}
+              fetching={fetching}
               geolocate={this.geolocate}
               sideBarOpen={sidebarOpen}
               toggleSidebar={this.toggle('sidebarOpen')}
