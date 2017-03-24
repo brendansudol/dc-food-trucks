@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Modal = ({ open, toggle }) => {
   const fixed = {
     position: 'fixed',

@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Header = ({ toggleModal }) => (
   <header className='bg-red white'>
     <div className='right'>
