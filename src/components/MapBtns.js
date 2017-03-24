@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const MapBtns = ({ count, fetching, geolocate, sideBarOpen, toggleSidebar }) => (
   <div className='absolute top-0 right-0 p1'>
     <button

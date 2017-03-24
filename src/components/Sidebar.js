@@ -1,6 +1,7 @@
 import uniqBy from 'lodash.uniqby'
 import React from 'react'
 
+
 const Sidebar = ({ fetching, highlight, open, trucks }) => {
   const ct = trucks.length
   const trucksFiltered = uniqBy(trucks.map(t => t.properties.info), 'name')
