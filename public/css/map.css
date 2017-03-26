@@ -1201,29 +1201,19 @@
 }
 
 .cluster {
-  background-color: #ff4136;
-  border: 2px solid #ff4136;
+  background-color: #fe3f4c;
+  border: 2px solid #fea0a6;
   border-radius: 50%;
   color: white;
-  font-family: Consolas, Courier, monospace;
+  font-family: Courier, monospace;
   font-weight: bold;
   text-align: center;
+  box-sizing: initial;
 }
 
 .cluster.active {
   background-color: #000;
   border-color: #000;
-}
-
-.cluster:before {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border: 2px solid #fff;
 }
 
 .digits-0 {
