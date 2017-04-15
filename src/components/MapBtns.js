@@ -1,14 +1,14 @@
 import React from 'react'
 
 
-const MapBtns = ({ count, fetching, geolocate, sideBarOpen, toggleSidebar }) => (
+const MapBtns = ({ count, fetching, geolocate, sidebarOpen, toggleSidebar }) => (
   <div className='absolute top-0 right-0 p1'>
     <button
       className='block btn btn-primary mb1 p0 bg-white black md-hide lg-hide'
       style={{ width: '3rem', height: '3rem' }}
       onClick={toggleSidebar}
     >
-      {sideBarOpen ? '✕' : (fetching ? '...' : count)}
+      {sidebarOpen ? '✕' : (fetching ? '...' : count)}
     </button>
     <button
       className='block btn btn-primary p0 bg-white black'
