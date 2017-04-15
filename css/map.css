@@ -1205,10 +1205,10 @@
   border: 2px solid #fea0a6;
   border-radius: 50%;
   color: white;
-  font-family: Courier, monospace;
+  font-family: avenir next, avenir, ubuntu, roboto, sans-serif;
   font-weight: bold;
   text-align: center;
-  box-sizing: initial;
+  box-sizing: border-box;
 }
 
 .cluster.active {
@@ -1220,7 +1220,7 @@
   margin-left: -.75rem;
   margin-top: -.75rem;
   font-size: .75rem;
-  line-height: 1.5rem;
+  line-height: 1.375rem;
   height: 1.5rem;
   width: 1.5rem;
 }
@@ -1229,7 +1229,7 @@
   margin-left: -.875rem;
   margin-top: -.875rem;
   font-size: .875rem;
-  line-height: 1.75rem;
+  line-height: 1.625rem;
   height: 1.75rem;
   width: 1.75rem;
 }
@@ -1237,8 +1237,8 @@
 .digits-2 {
   margin-left: -1rem;
   margin-top: -1rem;
-  font-size: .875rem;
-  line-height: 2rem;
+  font-size: .75rem;
+  line-height: 1.875rem;
   height: 2rem;
   width: 2rem;
 }
@@ -1247,7 +1247,7 @@
   margin-left: -1.5rem;
   margin-top: -1.5rem;
   font-size: 1rem;
-  line-height: 3rem;
+  line-height: 2.875rem;
   height: 3rem;
   width: 3rem;
 }
